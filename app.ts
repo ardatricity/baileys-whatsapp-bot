@@ -361,7 +361,6 @@ async function startBot() {
     const sock = makeWASocket({
       version,
       logger,
-      printQRInTerminal: !usePairingCode,
       auth: {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, logger),
@@ -601,6 +600,9 @@ async function startBot() {
       
       if (qr) {
         console_logger.info('QR Code received. Scan it with your phone.');
+        // Generate QR code in terminal
+        const qrcode = require('qrcode-terminal');
+        qrcode.generate(qr, { small: true });
       }
       
       if (connection === 'close') {
